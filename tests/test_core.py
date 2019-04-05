@@ -5280,8 +5280,10 @@ int main(void) {
           shutil.copyfile('src.cpp.o.js', '%d_%s.js' % (precision, t))
 
     test([])
-    if self.is_wasm_backend():
-      test(['-mnontrapping-fptoint'])
+
+    # TODO: enable when we have bleeding edge node on the bots
+    # if self.is_wasm_backend():
+    #   test(['-mnontrapping-fptoint'])
 
   def test_whets(self):
     self.do_run(open(path_from_root('tests', 'whets.cpp')).read(), 'Single Precision C Whetstone Benchmark')
