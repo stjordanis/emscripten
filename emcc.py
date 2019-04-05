@@ -2493,10 +2493,6 @@ def parse_args(newargs):
       else:
         shared.generate_config(optarg)
       should_exit = True
-    elif newargs[i] == '-mbleeding-edge':
-      shared.Settings.BINARYEN_FEATURES += ['--all-features']
-    elif newargs[i] == '-mnontrapping-fptoint':
-      shared.Settings.BINARYEN_FEATURES += ['--enable-nontrapping-float-to-int']
 
   if should_exit:
     sys.exit(0)
@@ -2654,7 +2650,6 @@ def do_binaryen(target, asm_target, options, memfile, wasm_binary_target,
       cmd += ['-o', wasm_binary_target]
     else:
       cmd += ['-o', wasm_text_target, '-S']
-    cmd += shared.Building.get_binaryen_feature_flags()
     logger.debug('asm2wasm (asm.js => WebAssembly): ' + ' '.join(cmd))
     TimeLogger.update()
     shared.check_call(cmd)
@@ -2681,7 +2676,6 @@ def do_binaryen(target, asm_target, options, memfile, wasm_binary_target,
     # BINARYEN_PASSES is comma-separated, and we support both '-'-prefixed and unprefixed pass names
     passes = [('--' + p) if p[0] != '-' else p for p in shared.Settings.BINARYEN_PASSES.split(',')]
     cmd = [os.path.join(binaryen_bin, 'wasm-opt'), wasm_binary_target, '-o', wasm_binary_target] + passes
-    cmd += shared.Building.get_binaryen_feature_flags()
     if debug_info:
       cmd += ['-g'] # preserve the debug info
     if use_source_map(options):

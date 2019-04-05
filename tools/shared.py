@@ -2681,17 +2681,6 @@ class Building(object):
     return [path_from_root('src', x) for x in system_js_libraries]
 
   @staticmethod
-  def get_binaryen_feature_flags():
-    # start with the MVP features, add the rest as needed
-    ret = ['--mvp-features']
-    if Settings.USE_PTHREADS:
-      ret += ['--enable-threads']
-    if Settings.SIMD:
-      ret += ['--enable-simd']
-    ret += Settings.BINARYEN_FEATURES
-    return ret
-
-  @staticmethod
   def get_binaryen_bin():
     assert Settings.WASM, 'non wasm builds should not ask for binaryen'
     if not BINARYEN_ROOT:
